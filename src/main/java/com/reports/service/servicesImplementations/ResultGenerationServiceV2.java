@@ -1,6 +1,7 @@
 package com.reports.service.servicesImplementations;
 
 import com.reports.model.Character;
+import com.reports.model.DTO.CharacterDTO;
 import com.reports.model.Film;
 import com.reports.model.Planet;
 import com.reports.model.Result;
@@ -22,43 +23,44 @@ public class ResultGenerationServiceV2 implements ResultsGenerationService {
 
     private final PlanetsService planetsService;
     private final CharacterService characterService;
-    private final FilmService filmService;
     private Planet planet;
+
     private Set<Result> results = new HashSet<>();
 
-    public ResultGenerationServiceV2(PlanetsService planetsService, CharacterService characterService, FilmService filmService) {
+    public ResultGenerationServiceV2(PlanetsService planetsService, CharacterService characterService) {
         this.planetsService = planetsService;
         this.characterService = characterService;
-        this.filmService = filmService;
     }
 
     @Override
     public Set<Result> generateResults(String characterPhrase, String searchingPlanetName) throws NotFoundException {
         results.clear();
-        List<Character> characters = new ArrayList<>();
-
-            planet = planetsService.getByName(searchingPlanetName);
-            planet.getResidents().stream()
-                    .forEach(url -> {
-                  characters.add(characterService.getByUrl(url));
-            });
-
-            filterByCharacterName(characters, characterPhrase);
-
+        List<CharacterDTO> characterDTOS = getCharacterListByHomeworldPlanet(searchingPlanetName);
+        filterByCharacterName(characterDTOS, characterPhrase);
         return results;
     }
 
-    private void filterByCharacterName(List<Character> characters, String characterPhrase) {
-        for (Character character: characters) {
-            if(character.getCharacterName().contains(characterPhrase)) {
-                generateResult(character);
+    private List<CharacterDTO> getCharacterListByHomeworldPlanet(String searchingPlanetName) throws NotFoundException {
+        List<CharacterDTO> characterDTOS = new ArrayList<>();
+        Planet planet =  planetsService.getByName(searchingPlanetName);
+        planet.getResidents()
+                .forEach(url -> {
+                    characterDTOS.add(characterService.getByUrl(url));
+                });
+        return characterDTOS;
+    }
+
+    private void filterByCharacterName(List<CharacterDTO> charactersDTOS, String characterPhrase) {
+
+        for (CharacterDTO characterDTO: charactersDTOS) {
+            if(characterDTO.getCharacterName().contains(characterPhrase)) {
+                generateResult(characterService.mapToCharacter(characterDTO, planet));
             }
         }
     }
 
     private void generateResult(Character character) {
-        for (String url : character.getFilms()) {
-            Film film = filmService.getFilm(url);
+        for (Film film : character.getFilms()) {
             Result result = Result.newBuilder()
                     .setFilmId(film.getFilmId())
                     .setFilmName(film.getTitle())

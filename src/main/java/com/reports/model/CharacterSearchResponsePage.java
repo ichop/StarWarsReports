@@ -1,5 +1,6 @@
 package com.reports.model;
 
+import com.reports.model.DTO.CharacterDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,9 +16,9 @@ public class CharacterSearchResponsePage<T> {
     private int count;
     private String next;
     private String previous;
-    private List<Character> results;
+    private List<CharacterDTO> results;
 
-    public List<Character> getResults(){
+    public List<CharacterDTO> getResults(){
         return results;
     }
 }
