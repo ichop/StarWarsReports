@@ -1,0 +1,4 @@
+2020-07-11 22:37:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "REPORT_REPORT_ID[*] REPORT_REPORT_ID"; ожидалось "ROLLBACK, REVOKE, RUNSCRIPT, RELEASE"
+Syntax error in SQL statement "REPORT_REPORT_ID[*] REPORT_REPORT_ID"; expected "ROLLBACK, REVOKE, RUNSCRIPT, RELEASE"; SQL statement:
+REPORT_REPORT_ID REPORT_REPORT_ID [42001-200]
