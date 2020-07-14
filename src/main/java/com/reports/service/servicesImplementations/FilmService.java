@@ -22,7 +22,7 @@ public class FilmService {
 
     private void setFilmId(Film film) {
         film.setFilmId(
-                Integer.parseInt(film.getUrl().replace(baseUrl + "api/films/", "").replace("/", ""))
+                Integer.parseInt(film.getUrl().replace(baseUrl + "/api/films/", "").replace("/", ""))
         );
     }
 }

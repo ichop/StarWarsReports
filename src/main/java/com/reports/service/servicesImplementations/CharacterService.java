@@ -58,7 +58,7 @@ public class CharacterService {
     public Character mapToCharacter(CharacterDTO characterDTO, Planet planet) {
         Character character = new Character();
         character.setCharacterId(characterDTO.getCharacterId());
-        character.setCharacterName(character.getCharacterName());
+        character.setCharacterName(characterDTO.getCharacterName());
         character.setHomeworld(planet);
         List<Film> films = new ArrayList<>();
         for (String filmUrl: characterDTO.getFilms()) {

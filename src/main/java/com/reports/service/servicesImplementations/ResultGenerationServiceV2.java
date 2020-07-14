@@ -42,7 +42,7 @@ public class ResultGenerationServiceV2 implements ResultsGenerationService {
 
     private List<CharacterDTO> getCharacterListByHomeworldPlanet(String searchingPlanetName) throws NotFoundException {
         List<CharacterDTO> characterDTOS = new ArrayList<>();
-        Planet planet =  planetsService.getByName(searchingPlanetName);
+        planet =  planetsService.getByName(searchingPlanetName);
         planet.getResidents()
                 .forEach(url -> {
                     characterDTOS.add(characterService.getByUrl(url));
@@ -54,6 +54,7 @@ public class ResultGenerationServiceV2 implements ResultsGenerationService {
 
         for (CharacterDTO characterDTO: charactersDTOS) {
             if(characterDTO.getCharacterName().contains(characterPhrase)) {
+                System.out.println(planet);
                 generateResult(characterService.mapToCharacter(characterDTO, planet));
             }
         }

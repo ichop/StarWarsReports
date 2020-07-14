@@ -26,7 +26,6 @@ public class PlanetsService {
     public Planet getByName(String name) throws NotFoundException {
 
         String basePlanetSearchUrl = baseUrl + "/api/planets/?search=";
-
         List<Planet> planets = restTemplate.getForObject(basePlanetSearchUrl + name, PlanetSearchResponsePage.class).getResults();
         if (planets.size() == 1 && planets.get(0).getPlanetName().equals(name)) {
             setPlanetId(planets.get(0));
