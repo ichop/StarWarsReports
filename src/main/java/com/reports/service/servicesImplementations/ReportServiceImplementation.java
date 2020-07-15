@@ -27,9 +27,6 @@ public class ReportServiceImplementation implements ReportService {
     public void putReport(Integer reportId, String characterPhrase, String searchingPlanetName) throws NotFoundException {
         Report report = new Report(reportId, characterPhrase, searchingPlanetName);
         report.setResults(resultsGenerationService.generateResults(characterPhrase, searchingPlanetName));
-//        if(getById(reportId) != null) {
-//            deleteById(reportId);
-//        }
         reportRepository.save(report);
     }
 
